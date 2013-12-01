@@ -129,8 +129,13 @@ class SnapShot:
             return
 
         print 'Deleting "%s"...' % target[0]
-        self.conn.delete_snapshot(target[0])
-        print '...Done!'
+        try:
+            self.conn.delete_snapshot(target[0])
+            print '...Done!'
+        except:
+            error = traceback.format_exc()
+            if error.find('is currently in use') != -1:
+                print 'Snapshot currently in use. Deletion aborted.'
 
 
 
